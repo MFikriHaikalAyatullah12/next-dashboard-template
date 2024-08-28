@@ -1,4 +1,5 @@
 import "@/app/ui/global.css";
+import { lusitana } from "./ui/invoices/fonts";
 // /app/layout.jsx
 export default function RootLayout({ children }) {
   return (
