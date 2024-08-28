@@ -1,8 +1,9 @@
 import "@/app/ui/global.css";
+// /app/layout.jsx
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={`${lusitana.className} antialiased`}>{children}</body>
     </html>
   );
 }
