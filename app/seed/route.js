@@ -1,8 +1,6 @@
-"use server"; // Direktif ini untuk file server-only di Next.js 13+
-
-const bcrypt = require('bcrypt');
-const { db } = require('@vercel/postgres');
-const { invoices, customers, revenue, users } = require('../lib/placeholder-data');
+import bcrypt from 'bcryptjs';
+import { db } from '@vercel/postgres';
+import { invoices, customers, revenue, users } from '@/app/lib/placeholder-data.js';
 
 // Buat koneksi database
 const client = await db.connect();

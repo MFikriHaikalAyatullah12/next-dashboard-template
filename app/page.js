@@ -25,6 +25,20 @@ export default function Page() {
             <span>Log in</span>
             <ArrowRightIcon className="w-5 h-5" />
           </Link>
+          <Link
+            href="/register"
+            className="flex items-center self-start gap-3 px-6 py-3 text-sm font-medium text-blue-600 transition-colors bg-white border border-blue-500 rounded-lg hover:bg-blue-50 md:text-base"
+          >
+            <span>Sign up</span>
+            <ArrowRightIcon className="w-5 h-5" />
+          </Link>
+          <Link
+            href="/register"
+            className="flex items-center self-start gap-3 px-6 py-3 text-sm font-medium text-blue-600 transition-colors border border-blue-500 rounded-lg hover:bg-blue-50 md:text-base"
+          >
+            <span>Sign up</span>
+            <ArrowRightIcon className="w-5 h-5" />
+          </Link>
         </div>
         <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
           {/* Add Hero Images Here */}

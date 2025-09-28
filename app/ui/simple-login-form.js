@@ -8,15 +8,53 @@ import {
 } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
 import { Button } from './button';
-import { useFormState, useFormStatus } from 'react-dom';
-import { authenticate } from '@/app/lib/actions';
+import { useState } from 'react';
 import Link from 'next/link';
 
-export default function LoginForm() {
-  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+export default function SimpleLoginForm() {
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    const formData = new FormData(e.target);
+    
+    const email = formData.get('email');
+    const password = formData.get('password');
+
+    if (!email || !password) {
+      setError('Please enter email and password');
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        window.location.href = '/dashboard';
+      } else {
+        const data = await response.json();
+        setError(data.error || 'Login failed');
+      }
+    } catch (error) {
+      setError('An error occurred. Please try again.');
+    }
+
+    setLoading(false);
+  };
 
   return (
-    <form action={dispatch} className="space-y-3">
+    <form onSubmit={handleSubmit} className="space-y-3">
       <div className="flex-1 px-6 pt-8 pb-4 rounded-lg bg-gray-50">
         <h1 className={`${lusitana.className} mb-3 text-2xl`}>
           Please log in to continue.
@@ -62,38 +100,35 @@ export default function LoginForm() {
             </div>
           </div>
         </div>
-        <LoginButton />
+        <Button 
+          className="w-full mt-4" 
+          disabled={loading}
+          type="submit"
+        >
+          {loading ? 'Signing in...' : 'Log in'} 
+          <ArrowRightIcon className="w-5 h-5 ml-auto text-gray-50" />
+        </Button>
         <div
-          className="flex items-end h-8 space-x-1"
+          className="flex items-end h-8 space-x-1 mt-4"
           aria-live="polite"
           aria-atomic="true"
         >
-          {errorMessage && (
+          {error && (
             <>
               <ExclamationCircleIcon className="w-5 h-5 text-red-500" />
-              <p className="text-sm text-red-500">{errorMessage}</p>
+              <p className="text-sm text-red-500">{error}</p>
             </>
           )}
         </div>
-        <div className="flex items-center justify-center mt-6">
+        <div className="mt-4 text-center">
           <p className="text-sm text-gray-600">
             Don't have an account?{' '}
             <Link href="/register" className="text-blue-500 hover:text-blue-400">
-              Sign up
+              Sign up here
             </Link>
           </p>
         </div>
       </div>
     </form>
-  );
-}
-
-function LoginButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <Button className="w-full mt-4" aria-disabled={pending}>
-      Log in <ArrowRightIcon className="w-5 h-5 ml-auto text-gray-50" />
-    </Button>
   );
 }
