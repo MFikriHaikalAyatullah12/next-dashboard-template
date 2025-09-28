@@ -23,7 +23,7 @@
     "tailwindcss": "3.4.4",
     "typescript": "5.5.2",
     "use-debounce": "^10.0.6",
-    "zod": "^3.23.8"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "postcss": "^8",
